@@ -20,4 +20,12 @@ public class DVDService {
     public List<DVDDisk> getAllDVD(){
         return dvdRepository.findAll();
     }
+    @Transactional
+    public void addDisk(DVDDisk dvdDisk){
+        dvdRepository.save(dvdDisk);
+    }
+
+    public DVDDisk getDiskById(int id){
+        return dvdRepository.findById(id).orElse(null);
+    }
 }

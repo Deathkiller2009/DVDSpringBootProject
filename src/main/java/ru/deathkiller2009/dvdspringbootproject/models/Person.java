@@ -2,6 +2,7 @@ package ru.deathkiller2009.dvdspringbootproject.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import ru.deathkiller2009.dvdspringbootproject.util.Role;
 
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class Person {
     private String password;
     @OneToMany(mappedBy = "owner")
     private List<DVDDisk> disks;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public int getId() {
         return id;
@@ -51,5 +55,23 @@ public class Person {
 
     public void setDisks(List<DVDDisk> disks) {
         this.disks = disks;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

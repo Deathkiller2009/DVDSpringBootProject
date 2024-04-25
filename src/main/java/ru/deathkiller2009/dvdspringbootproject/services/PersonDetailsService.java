@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.deathkiller2009.dvdspringbootproject.models.Person;
 import ru.deathkiller2009.dvdspringbootproject.repositories.PeopleRepository;
 import ru.deathkiller2009.dvdspringbootproject.security.PersonDetails;
@@ -12,6 +13,7 @@ import ru.deathkiller2009.dvdspringbootproject.security.PersonDetails;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class PersonDetailsService implements UserDetailsService {
 
     private final PeopleRepository peopleRepository;

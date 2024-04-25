@@ -1,42 +1,29 @@
-package ru.deathkiller2009.dvdspringbootproject.models;
+package ru.deathkiller2009.dvdspringbootproject.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-@Entity
-@Table(name = "dvd_disk")
-public class DVDDisk {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-    @Column(name = "title")
+
+public class DVDDiskDTO {
+
     @NotEmpty(message = "Название диска не должно быть пустым!")
     private String title;
-    @Column(name = "author")
+
     @NotEmpty(message = "Название диска не должно быть пустым!")
     private String author;
-    @Column(name = "release_date")
+
     @NotNull(message = "Название диска не должно быть пустым!")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
-    @Column(name = "annotation")
+
     @NotEmpty(message = "Название диска не должно быть пустым!")
     private String annotation;
-
-    @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person owner;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -68,13 +55,5 @@ public class DVDDisk {
 
     public void setAnnotation(String annotation) {
         this.annotation = annotation;
-    }
-
-    public Person getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Person owner) {
-        this.owner = owner;
     }
 }

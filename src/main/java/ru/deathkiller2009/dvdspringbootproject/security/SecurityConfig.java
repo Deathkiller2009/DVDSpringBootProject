@@ -18,6 +18,7 @@ import ru.deathkiller2009.dvdspringbootproject.services.PersonDetailsService;
 @EnableWebSecurity
 public class SecurityConfig {
     private final PersonDetailsService personDetailsService;
+
     @Autowired
     public SecurityConfig(PersonDetailsService personDetailsService) {
         this.personDetailsService = personDetailsService;
@@ -28,8 +29,9 @@ public class SecurityConfig {
             throws Exception {
         return config.getAuthenticationManager();
     }
+
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(personDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -38,19 +40,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin(http -> http.loginPage("/auth/login")
-                .usernameParameter("username")
+        httpSecurity.formLogin(http -> http.usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/disks")
-                .failureForwardUrl("/auth/login?error")
-                .loginProcessingUrl("/security-process"));
-        httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login").permitAll()
-                .anyRequest().authenticated());
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/security-process")
+                .defaultSuccessUrl("/person", true)
+                .failureUrl("/auth/login?error")
+        );
+        httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/auth/register", "/error").permitAll()
+                .requestMatchers("/disks/create", "/admin/**").hasRole("ADMIN")
+                .anyRequest().hasAnyRole("USER", "ADMIN"));
+        httpSecurity.logout(logout -> logout.logoutUrl("/logout")
+                .logoutSuccessUrl("/auth/login"));
         return httpSecurity.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

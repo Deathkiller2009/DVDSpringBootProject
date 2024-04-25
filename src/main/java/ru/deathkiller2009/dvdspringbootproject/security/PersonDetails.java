@@ -1,10 +1,12 @@
 package ru.deathkiller2009.dvdspringbootproject.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.deathkiller2009.dvdspringbootproject.models.Person;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class PersonDetails implements UserDetails {
     private final Person person;
@@ -15,7 +17,7 @@ public class PersonDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(person.getRole().toString()));
     }
 
     @Override
@@ -46,5 +48,9 @@ public class PersonDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Person getPerson() {
+        return person;
     }
 }

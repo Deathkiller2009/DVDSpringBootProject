@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:each="disk: ${disks}">
-    <p th:text="${disk.getTitle()} + ', ' + ${disk.getAuthor()}"></p>
+    <a th:href="@{/disks/{id}(id=${disk.getId()})}" th:text="${disk.getTitle()} + ', ' + ${disk.getAuthor()} + ', ' + ${disk.releaseDate}"></a>
 </div>
 </body>
 </html>
