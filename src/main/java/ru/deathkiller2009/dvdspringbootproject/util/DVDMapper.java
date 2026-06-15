@@ -15,11 +15,11 @@ public class DVDMapper {
         this.modelMapper = modelMapper;
     }
 
-    public DVDDiskDTO mapToDVDDiskDto(DVDDisk dvdDisk){
+    public DVDDiskDTO mapToDVDDiskDto(DVDDisk dvdDisk) {
         return modelMapper.map(dvdDisk, DVDDiskDTO.class);
     }
 
-    public DVDDisk mapToDVDDisk(DVDDiskDTO dvdDiskDTO){
+    public DVDDisk mapToDVDDisk(DVDDiskDTO dvdDiskDTO) {
         return modelMapper.map(dvdDiskDTO, DVDDisk.class);
     }
 }

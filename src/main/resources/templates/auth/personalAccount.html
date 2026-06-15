@@ -1,11 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Account</title>
 </head>
 <body>
-<p th:text="${person.getUsername()}"></p>
+
+<h1>Личный кабинет</h1>
+
+<p>Пользователь: <span th:text="${person.username}"></span></p>
+<p>Роль: <span th:text="${person.role}"></span></p>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admin}">Админ-панель</a>
+    <br>
+    <a th:href="@{/disks/create}">Создать диск</a>
+</div>
+
+<a th:href="@{/disks}">Список свободных дисков</a>
+
+<h2>Мои диски</h2>
+<div th:if="${person.getDisks().isEmpty()}">
+    <p>Нет дисков</p>
+</div>
+<div th:if="${person.disks != null && !person.disks.isEmpty()}">
+    <div th:each="disk: ${person.disks}">
+        <a th:href="@{/disks/{id}(id=${disk.id})}"
+           th:text="${disk.title}">
+        </a>
+
+        <form th:method="post"
+              th:action="@{/disks/{id}/return(id=${disk.id})}"
+              style="display: inline;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="submit" value="Вернуть">
+        </form>
+
+        <br>
+    </div>
+</div>
+
 <form th:method="post" th:action="@{/logout}">
     <input type="submit" value="Logout">
 </form>

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import ru.deathkiller2009.dvdspringbootproject.util.Role;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,8 +20,8 @@ public class Person {
     @Column(name = "password")
     @NotEmpty(message = "Пароль не должен быть пустым!")
     private String password;
-    @OneToMany(mappedBy = "owner")
-    private List<DVDDisk> disks;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<DVDDisk> disks = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -67,11 +68,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+        return username;
     }
 }

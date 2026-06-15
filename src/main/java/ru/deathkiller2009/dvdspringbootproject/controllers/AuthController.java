@@ -15,6 +15,7 @@ import ru.deathkiller2009.dvdspringbootproject.util.PersonMapper;
 public class AuthController {
     private final PersonMapper personMapper;
     private final PeopleService peopleService;
+
     @Autowired
     public AuthController(PersonMapper personMapper, PeopleService peopleService) {
         this.personMapper = personMapper;
@@ -22,17 +23,17 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "auth/login";
     }
 
     @GetMapping("/register")
-    public String register(@ModelAttribute("personDTO") PersonDTO personDTO){
+    public String register(@ModelAttribute("personDTO") PersonDTO personDTO) {
         return "/auth/register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("personDTO") @Valid PersonDTO personDTO, BindingResult bindingResult){
+    public String register(@ModelAttribute("personDTO") @Valid PersonDTO personDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/auth/register";
         }

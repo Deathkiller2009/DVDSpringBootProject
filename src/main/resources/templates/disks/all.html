@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Disks</title>
 </head>
 <body>
+<h1>Свободные диски</h1>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/disks/create}">Создать новый диск</a>
+    <br><br>
+</div>
+
+<div th:if="${disks.isEmpty()}">
+    <p>Свободных дисков нет</p>
+</div>
+
 <div th:each="disk: ${disks}">
     <a th:href="@{/disks/{id}(id=${disk.getId()})}" th:text="${disk.getTitle()} + ', ' + ${disk.getAuthor()} + ', ' + ${disk.releaseDate}"></a>
 </div>
+
+<br>
+
+<a th:href="@{/person}">Личный кабинет</a>
+
 </body>
 </html>

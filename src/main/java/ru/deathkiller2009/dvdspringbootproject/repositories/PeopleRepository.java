@@ -1,5 +1,6 @@
 package ru.deathkiller2009.dvdspringbootproject.repositories;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.deathkiller2009.dvdspringbootproject.models.Person;
@@ -13,4 +14,9 @@ public interface PeopleRepository extends JpaRepository<Person, Integer> {
     Optional<Person> findPersonByUsername(String username);
 
     List<Person> findAllByRoleNot(Role role);
+
+    boolean existsByUsername(String username);
+
+    @EntityGraph(attributePaths = "disks")
+    Optional<Person> findWithDisksById(int id);
 }

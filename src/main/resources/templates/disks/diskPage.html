@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Disk</title>
@@ -8,5 +8,40 @@
 <p th:text="${disk.getTitle()} + ', ' + ${disk.getAuthor()} + ', ' + ${disk.getReleaseDate()}" ></p>
 <br>
 <p th:text="${disk.getAnnotation()}"></p>
+<div th:if="${disk.getOwner() == null}">
+    <h2>Диск свободен</h2>
+    <form th:method="POST" th:action="@{/disks/{id}/take(id=${disk.getId()})}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="submit" value="Отдать диск">
+    </form>
+</div>
+<div th:if="${disk.getOwner() != null}">
+    <h2>Диск занят</h2>
+    <p th:text="Владелец + ' - ' + ${disk.owner.username}"></p>
+    <div th:if="${currentUserIsOwner}">
+        <form th:method="post" th:action="@{/disks/{id}/return(id=${disk.id})}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="submit" value="Вернуть диск">
+        </form>
+    </div>
+</div>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/disks/{id}/edit(id=${disk.id})}">Редактировать диск</a>
+
+    <br><br>
+
+    <form th:method="delete" th:action="@{/disks/{id}(id=${disk.id})}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="submit" value="Удалить диск"
+               onclick="return confirm('Вы уверены, что хотите удалить диск?');">
+    </form>
+</div>
+
+<br>
+<a th:href="@{/disks}">Назад к списку свободных дисков</a>
+<br>
+<a th:href="@{/person}">Личный кабинет</a>
+
 </body>
 </html>

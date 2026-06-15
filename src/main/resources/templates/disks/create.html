@@ -6,6 +6,7 @@
 </head>
 <body>
 <form th:method="POST" th:action="@{/disks/create}" th:object="${disk}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
     <label for="title">Введите название</label>
     <input type="text" th:field="*{title}" id="title">
     <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
@@ -14,8 +15,8 @@
     <input type="text" th:field="*{author}" id="author">
     <div style="color: red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
     <br>
-    <label for="date">Введите год релиза</label>
-    <input type="text" th:field="*{releaseDate}" id="date">
+    <label for="date">Введите дату релиза</label>
+    <input type="date" th:field="*{releaseDate}" id="date">
     <div style="color: red" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></div>
     <br>
     <label for="annotation">Введите аннотацию</label>
@@ -24,5 +25,10 @@
     <br>
     <input type="submit" value="Создать">
 </form>
+
+<br>
+
+<a th:href="@{/disks}">Назад к списку дисков</a>
+
 </body>
 </html>

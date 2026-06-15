@@ -17,19 +17,20 @@ import ru.deathkiller2009.dvdspringbootproject.services.PeopleService;
 @RequestMapping("/admin")
 public class AdminController {
     private final PeopleService peopleService;
+
     @Autowired
     public AdminController(PeopleService peopleService) {
         this.peopleService = peopleService;
     }
 
     @GetMapping
-    public String getAdminPage(Model model){
+    public String getAdminPage(Model model) {
         model.addAttribute("people", peopleService.findPeopleExceptAdmins());
         return "/admin/adminPage";
     }
 
     @PostMapping("/new")
-    public String makeAdmin(HttpServletRequest request){
+    public String makeAdmin(HttpServletRequest request) {
         String admin = request.getParameter("newAdmin");
         int newAdminId = Integer.parseInt(admin);
         peopleService.makeNewAdmin(newAdminId);

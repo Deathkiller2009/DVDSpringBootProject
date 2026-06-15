@@ -1,5 +1,6 @@
 package ru.deathkiller2009.dvdspringbootproject.controllers;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,11 +23,12 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String getAccountPage(Model model){
+    public String getAccountPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails principal = (PersonDetails) authentication.getPrincipal();
         Person person = principal.getPerson();
-        model.addAttribute("person", person);
+        Person personById = peopleService.findPersonWithDisksById(person.getId());
+        model.addAttribute("person", personById);
         return "/auth/personalAccount";
     }
 }

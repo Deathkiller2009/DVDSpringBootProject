@@ -15,11 +15,11 @@ public class PersonMapper {
         this.modelMapper = modelMapper;
     }
 
-    public PersonDTO mapToPersonDTO(Person person){
+    public PersonDTO mapToPersonDTO(Person person) {
         return modelMapper.map(person, PersonDTO.class);
     }
 
-    public Person mapToPerson(PersonDTO personDTO){
+    public Person mapToPerson(PersonDTO personDTO) {
         return modelMapper.map(personDTO, Person.class);
     }
 }

@@ -14,15 +14,14 @@ public class DVDDiskDTO {
     @NotEmpty(message = "Название диска не должно быть пустым!")
     private String title;
 
-    @NotEmpty(message = "Название диска не должно быть пустым!")
+    @NotEmpty(message = "Автор не должен быть пустым!")
     private String author;
 
-    @NotNull(message = "Название диска не должно быть пустым!")
-    @Temporal(TemporalType.DATE)
+    @NotNull(message = "Дата релиза не должна быть пустой!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
-    @NotEmpty(message = "Название диска не должно быть пустым!")
+    @NotEmpty(message = "Аннотация не должна быть пустой!")
     private String annotation;
 
     public String getTitle() {

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+
 @Entity
 @Table(name = "dvd_disk")
 public class DVDDisk {
@@ -16,17 +17,16 @@ public class DVDDisk {
     @NotEmpty(message = "Название диска не должно быть пустым!")
     private String title;
     @Column(name = "author")
-    @NotEmpty(message = "Название диска не должно быть пустым!")
+    @NotEmpty(message = "Автор не должен быть пустым!")
     private String author;
     @Column(name = "release_date")
-    @NotNull(message = "Название диска не должно быть пустым!")
-    @Temporal(TemporalType.DATE)
+    @NotNull(message = "Дата релиза не должна быть пустой!")
     private LocalDate releaseDate;
     @Column(name = "annotation")
-    @NotEmpty(message = "Название диска не должно быть пустым!")
+    @NotEmpty(message = "Аннотация не должна быть пустой!")
     private String annotation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
